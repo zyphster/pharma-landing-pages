@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexaPharma — Next Generation Pharma Supply Network</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --neon:#00d4ff;--neon2:#0099cc;--neon3:#00ffcc;
+    --dark:#020a12;--dark2:#05111c;--dark3:#071828;
+    --glass:rgba(0,212,255,0.06);--glass2:rgba(0,212,255,0.1);
+    --border:rgba(0,212,255,0.15);--border2:rgba(0,212,255,0.3);
+    --text:#e8f4fd;--text2:#8ab4cc;--text3:#4a7a99;
+    --card:#080f18;--card2:#0a1520;
+  }
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;line-height:1.6}
+
+  /* PARTICLES */
+  #particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+  .particle{position:absolute;border-radius:50%;animation:floatP linear infinite;opacity:0.4}
+  @keyframes floatP{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:0.4}90%{opacity:0.4}100%{transform:translateY(-20px) scale(1);opacity:0}}
+
+  /* NAVBAR */
+  nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:70px;background:rgba(2,10,18,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:all .3s}
+  .nav-logo{display:flex;align-items:center;gap:10px;font-size:1.4rem;font-weight:800;color:var(--neon);letter-spacing:-0.5px;text-decoration:none}
+  .nav-logo .dot{width:8px;height:8px;background:var(--neon);border-radius:50%;box-shadow:0 0 10px var(--neon);animation:pulse 2s infinite;flex-shrink:0}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.7}}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{color:var(--text2);text-decoration:none;font-size:.9rem;font-weight:500;transition:color .3s;letter-spacing:.3px}
+  .nav-links a:hover{color:var(--neon)}
+  .nav-cta{display:flex;gap:10px}
+  .btn-primary{padding:9px 22px;background:var(--neon);color:#020a12;border:none;border-radius:50px;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .3s;letter-spacing:.3px;box-shadow:0 0 20px rgba(0,212,255,0.3);font-family:'Inter',sans-serif}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(0,212,255,0.5)}
+  .btn-ghost{padding:9px 22px;background:transparent;color:var(--neon);border:1px solid var(--border2);border-radius:50px;font-weight:600;font-size:.85rem;cursor:pointer;transition:all .3s;letter-spacing:.3px;font-family:'Inter',sans-serif}
+  .btn-ghost:hover{background:var(--glass2);transform:translateY(-2px)}
+
+  /* HERO */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 5% 60px;overflow:hidden}
+  .hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(0,212,255,0.06) 0%,transparent 70%);pointer-events:none}
+  .hero-glow2{position:absolute;top:20%;left:20%;width:300px;height:300px;background:radial-gradient(circle,rgba(0,255,204,0.04) 0%,transparent 70%);pointer-events:none;animation:breathe 4s ease-in-out infinite}
+  @keyframes breathe{0%,100%{opacity:0.5;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+  .hero-content{position:relative;z-index:2;max-width:900px;width:100%}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:var(--glass);border:1px solid var(--border2);border-radius:50px;font-size:.8rem;color:var(--neon);margin-bottom:2rem;letter-spacing:.5px;font-weight:600}
+  .hero-badge .badge-dot{width:6px;height:6px;background:var(--neon3);border-radius:50%;box-shadow:0 0 8px var(--neon3);animation:pulse 1.5s infinite;flex-shrink:0}
+  .hero h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;letter-spacing:-2px;margin-bottom:1.5rem}
+  .hero h1 .highlight{color:transparent;background:linear-gradient(135deg,var(--neon),var(--neon3));-webkit-background-clip:text;background-clip:text}
+  .hero p{font-size:1.15rem;color:var(--text2);max-width:600px;margin:0 auto 2.5rem;line-height:1.7;font-weight:400}
+  .hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem}
+  .hero-btns .btn-primary{padding:14px 32px;font-size:1rem}
+  .hero-btns .btn-ghost{padding:14px 32px;font-size:1rem}
+  .hero-stats{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+  .hero-stat{text-align:center}
+  .hero-stat .num{font-size:2rem;font-weight:800;color:var(--neon);display:block}
+  .hero-stat .lbl{font-size:.8rem;color:var(--text3);font-weight:500;letter-spacing:.5px;text-transform:uppercase}
+
+  /* FLOATING MEDICINE CARDS */
+  .drug-visual{position:relative;width:100%;max-width:700px;margin:3rem auto 0;height:200px;z-index:2}
+  .pill-card{position:absolute;background:var(--card);border:1px solid var(--border2);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 0 30px rgba(0,212,255,0.1)}
+  .pill-card:nth-child(1){left:0;top:20px;animation:floatCard1 3s ease-in-out infinite}
+  .pill-card:nth-child(2){left:50%;transform:translateX(-50%);top:0;animation:floatCard2 3.5s ease-in-out infinite .5s}
+  .pill-card:nth-child(3){right:0;top:20px;animation:floatCard3 4s ease-in-out infinite 1s}
+  @keyframes floatCard1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes floatCard2{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-10px)}}
+  @keyframes floatCard3{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .pill-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+  .pill-card .pill-name{font-size:.85rem;font-weight:700;color:var(--text);margin:0}
+  .pill-card .pill-sub{font-size:.7rem;color:var(--text3);margin:0}
+
+  /* DASHBOARD WIDGET */
+  .dash-widget{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:24px;margin-top:3rem;position:relative;overflow:hidden}
+  .dash-widget::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),var(--neon3))}
+  .dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+  .dash-title{font-size:.9rem;font-weight:700;color:var(--text2)}
+  .live-dot{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;color:var(--neon3);font-weight:600}
+  .live-dot::before{content:'';width:6px;height:6px;background:var(--neon3);border-radius:50%;display:inline-block;box-shadow:0 0 8px var(--neon3);animation:pulse 1s infinite}
+  .dash-bars{display:flex;align-items:flex-end;gap:8px;height:100px}
+  .dash-bar{flex:1;border-radius:6px 6px 0 0;transition:all .8s}
+  .dash-bar:hover{filter:brightness(1.3)}
+  .dash-labels{display:flex;gap:8px;margin-top:8px}
+  .dash-labels span{flex:1;text-align:center;font-size:.65rem;color:var(--text3)}
+  .dash-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1.5rem}
+  .dash-metric{text-align:center}
+  .dash-metric .val{font-size:1.3rem;font-weight:800;color:var(--neon)}
+  .dash-metric .key{font-size:.7rem;color:var(--text3);margin-top:2px}
+
+  /* SECTIONS */
+  section{position:relative;padding:100px 5%;z-index:1}
+  .section-tag{display:inline-block;padding:5px 14px;background:var(--glass);border:1px solid var(--border2);border-radius:50px;font-size:.75rem;color:var(--neon);font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}
+  .section-title{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-1px;margin-bottom:1rem}
+  .section-sub{font-size:1.05rem;color:var(--text2);max-width:580px;margin:0 auto 4rem;line-height:1.7}
+  .text-center{text-align:center}
+
+  /* PARTNERS */
+  .partners-strip{overflow:hidden;padding:40px 0;background:var(--dark2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .partners-track{display:flex;gap:4rem;animation:scroll 20s linear infinite;white-space:nowrap;width:max-content}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .partner-logo{font-size:.95rem;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;transition:color .3s;flex-shrink:0}
+  .partner-logo:hover{color:var(--neon)}
+
+  /* FEATURES STRIP */
+  .features-strip{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-bottom:5rem}
+  .feature-chip{display:flex;align-items:center;gap:8px;padding:10px 20px;background:var(--glass);border:1px solid var(--border2);border-radius:50px;font-size:.85rem;font-weight:600;color:var(--text);transition:all .3s}
+  .feature-chip:hover{background:var(--glass2);border-color:var(--neon);transform:translateY(-2px)}
+  .feature-chip .check{width:18px;height:18px;background:var(--neon);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#020a12;font-weight:900;flex-shrink:0}
+
+  /* MEDICINE CARDS */
+  .med-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+  .med-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:all .4s;cursor:pointer;position:relative;overflow:hidden}
+  .med-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--neon),var(--neon3));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+  .med-card:hover{border-color:var(--border2);transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,212,255,0.12)}
+  .med-card:hover::before{transform:scaleX(1)}
+  .med-card-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin-bottom:1.2rem;background:var(--glass);border:1px solid var(--border2)}
+  .med-card h3{font-size:1.1rem;font-weight:700;margin-bottom:.5rem;color:var(--text)}
+  .med-card p{font-size:.85rem;color:var(--text2);line-height:1.6;margin-bottom:1rem}
+  .med-tag{display:inline-block;padding:3px 10px;background:var(--glass);border:1px solid var(--border);border-radius:50px;font-size:.7rem;color:var(--neon);font-weight:600;margin:.2rem}
+
+  /* COUNTER CARDS */
+  .counter-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-bottom:4rem}
+  .counter-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;transition:all .4s}
+  .counter-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+  .counter-val{font-size:2.4rem;font-weight:900;color:var(--neon);display:block}
+  .counter-label{font-size:.8rem;color:var(--text2);margin-top:.3rem;font-weight:500}
+
+  /* ADVANTAGES */
+  .adv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+  .adv-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;text-align:center;transition:all .4s}
+  .adv-card:hover{border-color:var(--neon);box-shadow:0 0 40px rgba(0,212,255,0.1);transform:translateY(-5px)}
+  .adv-num{font-size:3rem;line-height:1;margin-bottom:.5rem}
+  .adv-card h3{font-size:.95rem;font-weight:700;margin-bottom:.5rem;color:var(--text)}
+  .adv-card p{font-size:.8rem;color:var(--text2)}
+
+  /* PROCESS */
+  .process-steps{display:flex;gap:0;flex-wrap:wrap;justify-content:center;position:relative;margin-top:2rem}
+  .process-steps::before{content:'';position:absolute;top:36px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);z-index:0}
+  .step{flex:1;min-width:160px;max-width:200px;text-align:center;position:relative;z-index:1;padding:0 10px}
+  .step-num{width:72px;height:72px;border-radius:50%;background:var(--card2);border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem;font-weight:800;color:var(--neon);transition:all .4s;box-shadow:0 0 20px rgba(0,212,255,0.1)}
+  .step:hover .step-num{background:var(--glass2);box-shadow:0 0 30px rgba(0,212,255,0.3);transform:scale(1.1)}
+  .step h4{font-size:.9rem;font-weight:700;margin-bottom:.4rem;color:var(--text)}
+  .step p{font-size:.78rem;color:var(--text2)}
+
+  /* TESTIMONIALS */
+  .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+  .testi-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:all .4s}
+  .testi-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 10px 40px rgba(0,212,255,0.08)}
+  .testi-stars{color:var(--neon);font-size:1rem;letter-spacing:2px;margin-bottom:1rem}
+  .testi-text{font-size:.9rem;color:var(--text2);line-height:1.7;margin-bottom:1.2rem;font-style:italic}
+  .testi-author{display:flex;align-items:center;gap:12px}
+  .testi-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--neon),var(--neon2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:#020a12;flex-shrink:0}
+  .testi-name{font-size:.9rem;font-weight:700;color:var(--text)}
+  .testi-role{font-size:.75rem;color:var(--text3)}
+
+  /* FAQ */
+  .faq-list{max-width:760px;margin:0 auto}
+  .faq-item{border:1px solid var(--border);border-radius:14px;margin-bottom:1rem;overflow:hidden;transition:border-color .3s;background:var(--card)}
+  .faq-item.open{border-color:var(--border2)}
+  .faq-q{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:600;font-size:.95rem;color:var(--text);transition:color .3s;user-select:none}
+  .faq-q:hover{color:var(--neon)}
+  .faq-icon{font-size:1.4rem;color:var(--neon);transition:transform .3s;font-weight:300;line-height:1;flex-shrink:0}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+  .faq-item.open .faq-a{max-height:200px}
+  .faq-a-inner{padding:0 24px 20px;font-size:.88rem;color:var(--text2);line-height:1.7}
+
+  /* CONTACT */
+  .contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1000px;margin:0 auto;align-items:start}
+  .contact-info h2{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:1rem;color:var(--text)}
+  .contact-info p{color:var(--text2);margin-bottom:2rem;line-height:1.7}
+  .contact-detail{display:flex;align-items:center;gap:12px;margin-bottom:1rem}
+  .contact-detail .icon{width:40px;height:40px;background:var(--glass);border:1px solid var(--border2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .contact-detail .info{font-size:.9rem;color:var(--text2)}
+  .contact-detail .info strong{display:block;color:var(--text);font-size:.95rem}
+  .contact-form{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:32px}
+  .form-group{margin-bottom:1.2rem}
+  .form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text2);margin-bottom:.5rem;letter-spacing:.5px;text-transform:uppercase}
+  .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;background:var(--dark3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s;resize:none}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--neon)}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:var(--text3)}
+  .form-group select option{background:var(--dark3);color:var(--text)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .wa-btn{width:100%;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:.5rem;font-family:'Inter',sans-serif}
+  .wa-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(37,211,102,0.3)}
+  .wa-icon{width:22px;height:22px;flex-shrink:0}
+
+  /* FLOATING CTA */
+  .float-cta{position:fixed;bottom:2rem;right:2rem;z-index:900;display:flex;flex-direction:column;gap:.6rem;align-items:flex-end}
+  .float-btn{padding:12px 20px;border-radius:50px;font-weight:700;font-size:.85rem;cursor:pointer;border:none;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,0.4);transition:all .3s;font-family:'Inter',sans-serif}
+  .float-btn:hover{transform:translateY(-3px)}
+  .float-wa{background:#25D366;color:#fff}
+  .float-wa:hover{box-shadow:0 15px 40px rgba(37,211,102,0.4)}
+  .float-call{background:var(--neon);color:#020a12}
+  .float-call:hover{box-shadow:0 15px 40px rgba(0,212,255,0.4)}
+
+  /* FOOTER */
+  footer{background:var(--dark2);border-top:1px solid var(--border);padding:60px 5% 30px;text-align:center}
+  .footer-logo{font-size:1.8rem;font-weight:900;color:var(--neon);margin-bottom:.5rem;letter-spacing:-1px}
+  .footer-sub{font-size:.85rem;color:var(--text3);margin-bottom:2rem}
+  .footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+  .footer-links a{color:var(--text3);text-decoration:none;font-size:.85rem;transition:color .3s}
+  .footer-links a:hover{color:var(--neon)}
+  .footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;font-size:.78rem;color:var(--text3)}
+
+  /* SCROLL ANIMATIONS */
+  .fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s,transform .7s}
+  .fade-up.visible{opacity:1;transform:translateY(0)}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    .contact-wrap{grid-template-columns:1fr}
+    .process-steps::before{display:none}
+    .form-row{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .drug-visual{height:auto;position:static;display:flex;flex-direction:column;gap:1rem;max-width:340px;margin:2rem auto 0}
+    .pill-card{position:static !important;transform:none !important;animation:floatCard1 3s ease-in-out infinite !important}
+    .pill-card:nth-child(2){animation-delay:.5s !important}
+    .pill-card:nth-child(3){animation-delay:1s !important}
+    .dash-metrics{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:600px){
+    .hero-stats{gap:1.5rem}
+    .nav-cta .btn-ghost{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- STICKY NAVBAR -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <div class="dot"></div>
+    NexaPharma
+  </a>
+  <ul class="nav-links">
+    <li><a href="#products">Products</a></li>
+    <li><a href="#advantages">Advantages</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-cta">
+    <button class="btn-ghost" onclick="scrollToSection('#contact')">Contact Sales</button>
+    <button class="btn-primary" onclick="scrollToSection('#contact')">Get Samples</button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content fade-up">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      WHO-GMP Certified Pharma Network
+    </div>
+    <h1>Next Generation<br><span class="highlight">Pharma Supply</span><br>Network</h1>
+    <p>Premium medicine samples for modern pharmacies and healthcare businesses. Reliable, fast, and fully certified.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="scrollToSection('#contact')">🧪 Get Samples</button>
+      <button class="btn-ghost" onclick="scrollToSection('#contact')">📞 Contact Sales</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="num" data-target="5000" data-suffix="+">0</span><span class="lbl">Partner Stores</span></div>
+      <div class="hero-stat"><span class="num" data-target="200" data-suffix="+">0</span><span class="lbl">Medicine SKUs</span></div>
+      <div class="hero-stat"><span class="num" data-target="98" data-suffix="%">0</span><span class="lbl">Delivery Rate</span></div>
+      <div class="hero-stat"><span class="num" data-target="15" data-suffix="yr+">0</span><span class="lbl">Experience</span></div>
+    </div>
+
+    <!-- LIVE DASHBOARD -->
+    <div class="dash-widget">
+      <div class="dash-header">
+        <span class="dash-title">📊 Live Distribution Dashboard</span>
+        <span class="live-dot">LIVE</span>
+      </div>
+      <div class="dash-bars" id="dashBars"></div>
+      <div class="dash-labels" id="dashLabels"></div>
+      <div class="dash-metrics">
+        <div class="dash-metric"><div class="val">₹2.4Cr</div><div class="key">Monthly Volume</div></div>
+        <div class="dash-metric"><div class="val">847</div><div class="key">Active Orders</div></div>
+        <div class="dash-metric"><div class="val">99.2%</div><div class="key">Authentic Rate</div></div>
+        <div class="dash-metric"><div class="val">4.8★</div><div class="key">Partner Rating</div></div>
+      </div>
+    </div>
+
+    <!-- FLOATING MEDICINE CARDS -->
+    <div class="drug-visual">
+      <div class="pill-card">
+        <div class="pill-icon" style="background:rgba(0,212,255,0.1)">💊</div>
+        <div><p class="pill-name">Cardiovascular</p><p class="pill-sub">42 SKUs Available</p></div>
+      </div>
+      <div class="pill-card">
+        <div class="pill-icon" style="background:rgba(0,255,204,0.1)">🧬</div>
+        <div><p class="pill-name">Antibiotics</p><p class="pill-sub">Premium Samples</p></div>
+      </div>
+      <div class="pill-card">
+        <div class="pill-icon" style="background:rgba(0,153,204,0.1)">🔬</div>
+        <div><p class="pill-name">Oncology</p><p class="pill-sub">Certified Supply</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED PARTNERS MARQUEE -->
+<div class="partners-strip" id="partners">
+  <div class="partners-track" id="partnerTrack"></div>
+</div>
+
+<!-- FEATURES CHIPS -->
+<section style="padding:60px 5% 40px">
+  <div class="features-strip fade-up">
+    <div class="feature-chip"><div class="check">✓</div> WHO-GMP Certified</div>
+    <div class="feature-chip"><div class="check">✓</div> Fast Delivery</div>
+    <div class="feature-chip"><div class="check">✓</div> Bulk Supply Available</div>
+    <div class="feature-chip"><div class="check">✓</div> Genuine Products</div>
+    <div class="feature-chip"><div class="check">✓</div> Trusted Pharma Network</div>
+    <div class="feature-chip"><div class="check">✓</div> 24/7 Support</div>
+  </div>
+</section>
+
+<!-- MEDICINE CATEGORIES -->
+<section id="products" style="background:var(--dark2)">
+  <div class="text-center fade-up">
+    <span class="section-tag">Medicine Categories</span>
+    <h2 class="section-title">Premium Sample Portfolio</h2>
+    <p class="section-sub">Explore our curated range of pharmaceutical samples across all major therapeutic segments.</p>
+  </div>
+  <div class="med-grid fade-up">
+    <div class="med-card">
+      <div class="med-card-icon">❤️</div>
+      <h3>Cardiovascular</h3>
+      <p>Heart health medications including antihypertensives, statins, anticoagulants for modern cardiology practices.</p>
+      <span class="med-tag">Antihypertensives</span><span class="med-tag">Statins</span><span class="med-tag">Diuretics</span>
+    </div>
+    <div class="med-card">
+      <div class="med-card-icon">🧬</div>
+      <h3>Antibiotics &amp; Antimicrobials</h3>
+      <p>Broad-spectrum and targeted antibiotic samples from WHO essential medicines list, fully certified.</p>
+      <span class="med-tag">Broad-Spectrum</span><span class="med-tag">Antifungals</span><span class="med-tag">Antivirals</span>
+    </div>
+    <div class="med-card">
+      <div class="med-card-icon">🧠</div>
+      <h3>Neurology &amp; CNS</h3>
+      <p>CNS medications covering epilepsy, depression, anxiety, pain management for comprehensive neurological care.</p>
+      <span class="med-tag">Antidepressants</span><span class="med-tag">Analgesics</span><span class="med-tag">Anxiolytics</span>
+    </div>
+    <div class="med-card">
+      <div class="med-card-icon">🔬</div>
+      <h3>Oncology</h3>
+      <p>Specialty cancer care samples with full cold-chain compliance, direct from licensed pharmaceutical manufacturers.</p>
+      <span class="med-tag">Chemotherapy</span><span class="med-tag">Immunotherapy</span><span class="med-tag">Hormonal</span>
+    </div>
+    <div class="med-card">
+      <div class="med-card-icon">🫁</div>
+      <h3>Respiratory</h3>
+      <p>Inhalers, bronchodilators and corticosteroids for asthma, COPD and respiratory infection management.</p>
+      <span class="med-tag">Inhalers</span><span class="med-tag">Bronchodilators</span><span class="med-tag">Corticosteroids</span>
+    </div>
+    <div class="med-card">
+      <div class="med-card-icon">🩺</div>
+      <h3>Diabetes Management</h3>
+      <p>Insulins, oral hypoglycemics and combination therapies for modern diabetes care and metabolic health.</p>
+      <span class="med-tag">Insulins</span><span class="med-tag">Metformin</span><span class="med-tag">GLP-1 Agonists</span>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANY ADVANTAGES -->
+<section id="advantages">
+  <div class="text-center fade-up">
+    <span class="section-tag">Why NexaPharma</span>
+    <h2 class="section-title">Company Advantages</h2>
+    <p class="section-sub">Built for modern healthcare businesses that demand reliability, speed, and authenticity at every step.</p>
+  </div>
+  <div class="counter-wrap fade-up">
+    <div class="counter-card"><span class="counter-val" data-target="5000" data-suffix="+">0</span><div class="counter-label">Pharmacy Partners</div></div>
+    <div class="counter-card"><span class="counter-val" data-target="200" data-suffix="+">0</span><div class="counter-label">Medicine SKUs</div></div>
+    <div class="counter-card"><span class="counter-val" data-target="48" data-suffix="hr">0</span><div class="counter-label">Max Delivery Time</div></div>
+    <div class="counter-card"><span class="counter-val" data-target="15" data-suffix="yr+">0</span><div class="counter-label">Years in Pharma</div></div>
+  </div>
+  <div class="adv-grid fade-up">
+    <div class="adv-card">
+      <div class="adv-num">🏅</div>
+      <h3>WHO-GMP Certified</h3>
+      <p>All our samples meet international WHO Good Manufacturing Practice standards with full traceability.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">⚡</div>
+      <h3>Fast Dispatch</h3>
+      <p>Same-day dispatch for metro cities. PAN India delivery within 48 hours with real-time tracking.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">📦</div>
+      <h3>Bulk Supply Ready</h3>
+      <p>Scale your orders seamlessly. Dedicated bulk supply lines for distributors and large pharmacy chains.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">🔒</div>
+      <h3>100% Genuine</h3>
+      <p>Directly sourced from licensed manufacturers. Every batch verified with QR-based authenticity checks.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">🤝</div>
+      <h3>Dedicated Account Manager</h3>
+      <p>Every partner gets a dedicated account manager. Priority support via WhatsApp and phone around the clock.</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-num">💳</div>
+      <h3>Flexible Credit</h3>
+      <p>Attractive credit terms for established distributors and pharmacy chains. Easy EMI and payment cycles.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DISTRIBUTION PROCESS -->
+<section id="process" style="background:var(--dark2)">
+  <div class="text-center fade-up">
+    <span class="section-tag">How It Works</span>
+    <h2 class="section-title">Distribution Process</h2>
+    <p class="section-sub">From inquiry to delivery — our streamlined process ensures your medicines reach you fast and verified.</p>
+  </div>
+  <div class="process-steps fade-up">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h4>Submit Inquiry</h4>
+      <p>Fill the form or WhatsApp us your requirements</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h4>KYC Verification</h4>
+      <p>Quick 24-hour verification of your pharmacy license</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h4>Sample Selection</h4>
+      <p>Choose from 200+ SKUs with our expert team</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h4>Order Processing</h4>
+      <p>Instant invoice generation and secure payment</p>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <h4>Fast Delivery</h4>
+      <p>Dispatched with cold-chain and real-time tracking</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="text-center fade-up">
+    <span class="section-tag">Testimonials</span>
+    <h2 class="section-title">Trusted by Pharmacies Nationwide</h2>
+    <p class="section-sub">Hear from our 5,000+ pharmacy and distributor partners across India.</p>
+  </div>
+  <div class="testi-grid fade-up">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"NexaPharma transformed our sample procurement. Delivery in 36 hours to our Jaipur store, and every product was authenticated. Exceptional service!"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">RK</div>
+        <div><div class="testi-name">Rajesh Kumar</div><div class="testi-role">Owner, MedPlus Pharmacy, Jaipur</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"As a distributor handling 50+ pharmacy accounts, NexaPharma's bulk pricing and credit terms have been a game-changer for our business margin."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SP</div>
+        <div><div class="testi-name">Sunita Patel</div><div class="testi-role">Director, HealthDist Pvt. Ltd., Mumbai</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"The WHO-GMP certification and batch traceability gives our clinic the confidence we need. NexaPharma is the gold standard in pharma supply."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AM</div>
+        <div><div class="testi-name">Dr. Arjun Mehta</div><div class="testi-role">Medical Director, LifeCare Clinic, Delhi</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--dark2)">
+  <div class="text-center fade-up">
+    <span class="section-tag">FAQ</span>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know about our pharma supply network.</p>
+  </div>
+  <div class="faq-list fade-up" id="faqList"></div>
+</section>
+
+<!-- CONTACT / LEAD GEN -->
+<section id="contact">
+  <div class="text-center fade-up" style="margin-bottom:3rem">
+    <span class="section-tag">Get In Touch</span>
+    <h2 class="section-title">Start Your Partnership</h2>
+    <p class="section-sub">Inquire now and get a personalized sample catalogue delivered to your WhatsApp within 2 hours.</p>
+  </div>
+  <div class="contact-wrap fade-up">
+    <div class="contact-info">
+      <h2>Let's Build Your <span style="color:var(--neon)">Pharma Network</span></h2>
+      <p>Whether you're a single pharmacy, a chain, or a national distributor — we have a tailored solution for you. Connect with our team instantly.</p>
+      <div class="contact-detail">
+        <div class="icon">📱</div>
+        <div class="info"><strong>WhatsApp Sales Line</strong>+91 98765 43210</div>
+      </div>
+      <div class="contact-detail">
+        <div class="icon">📧</div>
+        <div class="info"><strong>Email</strong>samples@nexapharma.in</div>
+      </div>
+      <div class="contact-detail">
+        <div class="icon">📍</div>
+        <div class="info"><strong>Headquarters</strong>Pharma Hub, MIDC Turbhe, Navi Mumbai</div>
+      </div>
+      <div class="contact-detail">
+        <div class="icon">⏰</div>
+        <div class="info"><strong>Working Hours</strong>Mon–Sat, 9 AM – 7 PM IST</div>
+      </div>
+      <div style="margin-top:2rem;padding:20px;background:var(--glass);border:1px solid var(--border2);border-radius:16px">
+        <p style="font-size:.85rem;color:var(--neon);font-weight:700;margin-bottom:.5rem">⚡ Fast Response Guarantee</p>
+        <p style="font-size:.82rem;color:var(--text2)">Submit your inquiry and receive a personalized sample catalogue on WhatsApp within 2 hours during business hours.</p>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group"><label>Full Name</label><input type="text" id="fname" placeholder="Dr. Rajesh Kumar"></div>
+        <div class="form-group"><label>Phone / WhatsApp</label><input type="tel" id="fphone" placeholder="+91 98765 43210"></div>
+      </div>
+      <div class="form-group"><label>Business Name</label><input type="text" id="fbusiness" placeholder="MedPlus Pharmacy / ABC Distributors"></div>
+      <div class="form-group">
+        <label>Business Type</label>
+        <select id="ftype">
+          <option value="">Select your business type</option>
+          <option>Retail Pharmacy</option>
+          <option>Hospital / Clinic</option>
+          <option>Wholesale Distributor</option>
+          <option>Pharmacy Chain</option>
+          <option>Medical College</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Medicine Categories Needed</label><input type="text" id="fcats" placeholder="e.g. Antibiotics, Cardiovascular, Oncology..."></div>
+      <div class="form-group"><label>Your Message</label><textarea id="fmsg" rows="3" placeholder="Tell us about your monthly requirement, current supplier issues, or any specific samples you need..."></textarea></div>
+      <button class="wa-btn" onclick="sendWhatsApp()">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Send Inquiry via WhatsApp
+      </button>
+      <p style="text-align:center;font-size:.75rem;color:var(--text3);margin-top:.8rem">🔒 Your information is 100% confidential and secure</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NexaPharma</div>
+  <p class="footer-sub">WHO-GMP Certified Pharmaceutical Sample Network · PAN India</p>
+  <div class="footer-links">
+    <a href="#products">Products</a>
+    <a href="#process">Process</a>
+    <a href="#partners">Partners</a>
+    <a href="#advantages">Advantages</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-bottom">
+    © 2025 NexaPharma Pvt. Ltd. · All Rights Reserved · Drug License No: XX/XX/XXXX · FSSAI: XXXXXXXXXXXX
+  </div>
+</footer>
+
+<!-- FLOATING CTA BUTTONS -->
+<div class="float-cta">
+  <button class="float-btn float-wa" onclick="sendWhatsApp()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    WhatsApp Us
+  </button>
+  <button class="float-btn float-call" onclick="scrollToSection('#contact')">📞 Get Samples</button>
+</div>
+
+<script>
+// ── PARTICLES ──────────────────────────────────────────────
+(function(){
+  const c = document.getElementById('particles');
+  const cols = ['#00d4ff','#00ffcc','#0099cc','#007acc'];
+  for(let i=0;i<40;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const s = Math.random()*4+1;
+    const col = cols[Math.floor(Math.random()*cols.length)];
+    p.style.cssText = `width:${s}px;height:${s}px;background:${col};left:${Math.random()*100}%;` +
+      `animation-duration:${Math.random()*15+8}s;animation-delay:${Math.random()*10}s;` +
+      `box-shadow:0 0 ${s*3}px ${col}`;
+    c.appendChild(p);
+  }
+})();
+
+// ── PARTNER MARQUEE ────────────────────────────────────────
+(function(){
+  const names = ['Apollo Pharmacy','MedPlus','Wellness Forever','Netmeds','PharmEasy',
+    '1mg','Sanofi India','Cipla','Sun Pharma','Dr. Reddy\'s','Lupin','Zydus Cadila'];
+  const track = document.getElementById('partnerTrack');
+  [...names,...names].forEach(n => {
+    const el = document.createElement('span');
+    el.className = 'partner-logo';
+    el.textContent = n;
+    track.appendChild(el);
+  });
+})();
+
+// ── DASHBOARD BARS ─────────────────────────────────────────
+(function(){
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul'];
+  const vals   = [65,80,70,90,75,95,85];
+  const barsC  = document.getElementById('dashBars');
+  const labC   = document.getElementById('dashLabels');
+  vals.forEach((v,i) => {
+    const b = document.createElement('div');
+    b.className = 'dash-bar';
+    b.title = months[i]+': '+v+'%';
+    b.style.cssText = `height:${v}%;background:${i===5?'#00ffcc':'#00d4ff'};` +
+      `opacity:${0.5+i*0.07};transition-delay:${i*0.1}s`;
+    barsC.appendChild(b);
+    const l = document.createElement('span');
+    l.textContent = months[i];
+    labC.appendChild(l);
+  });
+})();
+
+// ── FAQ ────────────────────────────────────────────────────
+(function(){
+  const faqs = [
+    {q:'Who can order from NexaPharma?',
+     a:'Licensed pharmacies, hospitals, clinics, wholesalers, and pharmaceutical distributors with valid drug licenses can place orders. We verify all partners before onboarding.'},
+    {q:'What is the minimum order quantity for samples?',
+     a:'Our minimum order is 1 carton per SKU for registered pharmacies. For distributors and wholesalers, bulk pricing starts from 10 cartons with attractive discounts.'},
+    {q:'How do you ensure product authenticity?',
+     a:'All products come directly from WHO-GMP certified manufacturers. Each batch includes QR-based authenticity verification, batch number tracing, and expiry documentation.'},
+    {q:'What are your delivery timelines?',
+     a:'Metro cities receive same-day or next-day delivery. Rest of India is serviced within 48 hours via our cold-chain logistics network. Real-time tracking is provided for all orders.'},
+    {q:'Do you offer credit terms?',
+     a:'Yes, established pharmacy chains and distributors can avail flexible credit terms of 15–30 days after initial verification. Contact our sales team for customized arrangements.'},
+    {q:'How do I get a sample catalogue?',
+     a:'Fill the inquiry form on this page or WhatsApp us directly. Our team will send you a personalized digital catalogue within 2 hours during business hours.'}
+  ];
+  const list = document.getElementById('faqList');
+  faqs.forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'faq-item';
+    item.innerHTML =
+      `<div class="faq-q" onclick="toggleFaq(this)">${f.q}<span class="faq-icon">+</span></div>` +
+      `<div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>`;
+    list.appendChild(item);
+  });
+})();
+
+function toggleFaq(el){
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+// ── SMOOTH SCROLL ──────────────────────────────────────────
+function scrollToSection(sel){
+  const el = document.querySelector(sel);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+// ── WHATSAPP LEAD GEN ──────────────────────────────────────
+function sendWhatsApp(){
+  const name     = document.getElementById('fname')     ? document.getElementById('fname').value.trim()     : '';
+  const phone    = document.getElementById('fphone')    ? document.getElementById('fphone').value.trim()    : '';
+  const biz      = document.getElementById('fbusiness') ? document.getElementById('fbusiness').value.trim() : '';
+  const type     = document.getElementById('ftype')     ? document.getElementById('ftype').value            : '';
+  const cats     = document.getElementById('fcats')     ? document.getElementById('fcats').value.trim()     : '';
+  const msg      = document.getElementById('fmsg')      ? document.getElementById('fmsg').value.trim()      : '';
+
+  let text = 'Hello NexaPharma! I am interested in your pharma sample supply.\n\n';
+  if(name)  text += `Name: ${name}\n`;
+  if(phone) text += `Phone: ${phone}\n`;
+  if(biz)   text += `Business: ${biz}\n`;
+  if(type)  text += `Type: ${type}\n`;
+  if(cats)  text += `Categories Needed: ${cats}\n`;
+  if(msg)   text += `Message: ${msg}\n`;
+  text += '\nPlease share your sample catalogue. Thank you!';
+
+  // Replace 919876543210 with your actual WhatsApp Business number
+  window.open('https://wa.me/919876543210?text='+encodeURIComponent(text), '_blank');
+}
+
+// ── ANIMATED COUNTERS ──────────────────────────────────────
+function animateCounter(el){
+  if(el.dataset.animated) return;
+  el.dataset.animated = '1';
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '+';
+  let cur = 0;
+  const inc = Math.max(1, Math.ceil(target/60));
+  const timer = setInterval(() => {
+    cur = Math.min(cur+inc, target);
+    el.textContent = cur + suffix;
+    if(cur >= target) clearInterval(timer);
+  }, 30);
+}
+
+// ── INTERSECTION OBSERVER ──────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      e.target.querySelectorAll('[data-target]').forEach(animateCounter);
+    }
+  });
+}, {threshold: 0.12});
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+// Hero counters on page load
+setTimeout(() => {
+  document.querySelectorAll('.hero-stat .num[data-target]').forEach(animateCounter);
+}, 600);
+
+// ── STICKY NAVBAR SHADOW ───────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').style.background =
+    window.scrollY > 50 ? 'rgba(2,10,18,0.97)' : 'rgba(2,10,18,0.85)';
+});
+</script>
+</body>
+</html>
